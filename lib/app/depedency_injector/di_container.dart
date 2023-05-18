@@ -17,7 +17,9 @@ class DiContainer {
         repository: GetIt.I.get<PokemonRepositoryImpl>()));
 
     getIt.registerFactory(
-      () => PokemonController(),
+      () => PokemonController(
+          store: GetIt.I.get<PokemonStore>(),
+          getPokemonsListUseCase: GetIt.I.get<GetPokemonsListUseCase>()),
     );
 
     getIt.registerSingleton(PokemonStore());
