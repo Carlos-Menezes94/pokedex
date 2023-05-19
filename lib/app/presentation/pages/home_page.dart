@@ -88,21 +88,46 @@ class _PokemonListPageState extends State<PokemonListPage> {
                 SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Search',
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Search',
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      SizedBox(width: 16),
+                      GestureDetector(
+                        onTap: () {
+                          // Ação ao pressionar o botão circular
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Center(
+                              child: Text(
+                            "A",
+                            style: TextStyle(color: Colors.red),
+                          )),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 24),
@@ -215,7 +240,6 @@ class _PokemonListPageState extends State<PokemonListPage> {
                 ),
                 Builder(builder: (context) {
                   if (value.isLoading()) {
-                    // Indicador de progresso circular
                     return Center(
                       child: CircularProgressIndicator(color: Colors.white),
                     );
