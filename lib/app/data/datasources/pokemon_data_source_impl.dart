@@ -6,10 +6,14 @@ import 'pokemon_data_source_abstract.dart';
 
 class PokemonDataSourceImpl implements PokemonDataSourceAbstract {
   @override
-  Future<DataSourceResponse> getPokemons() async {
+  Future<DataSourceResponse> getPokemons({required int page,required int limit }) async {
     final dio = Dio();
 
-    final response = await dio.get(PokemonEndpoints().getPokemon());
+    final response =
+        await dio.get(PokemonEndpoints().getPokemon(), queryParameters: {
+      'offset': (page - 1) * limit,
+      'limit': limit,
+    });
 
     if (response.data != null) {
       return DataSourceResponse(success: true, data: response.data);
@@ -17,4 +21,6 @@ class PokemonDataSourceImpl implements PokemonDataSourceAbstract {
       return DataSourceResponse(success: false, data: response.data);
     }
   }
+
+
 }
