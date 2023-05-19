@@ -14,13 +14,38 @@ class PokemonController extends Controller {
   Future<void> getPokemonsList() async {
     store.state.value = AppState.loading();
 
-    final response = await getPokemonsListUseCase.getPokemonsList();
+    final response = await getPokemonsListUseCase.getPokemonsList(
+        page: store.page, limit: 15);
 
-    response.fold((failure) {
-      store.state.value = AppState.error();
-    }, (userAccountModel) {
-      store.listPokemons.value = userAccountModel;
-      store.state.value = AppState.success();
-    });
+    response.fold(
+      (failure) {
+        store.state.value = AppState.error();
+      },
+      (userAccountModel) {
+        store.listPokemons.value = userAccountModel;
+        store.isLoadingPokeball = false;
+        store.state.value = AppState.success();
+      },
+    );
   }
+
+  Future<void> loadMorePokemons() async {
+    store.page = (store.listPokemons.value.results.length ~/ 20) + 1;
+    store.state.value = AppState.loading();
+    final response = await getPokemonsListUseCase.getPokemonsList(
+        page: store.page, limit: 20);
+
+    response.fold(
+      (failure) {
+        store.state.value = AppState.error();
+      },
+      (pokedexData) {
+        store.listPokemons.value.results.addAll(pokedexData.results);
+        store.isLoadingPokeball = false;
+        store.state.value = AppState.success();
+      },
+    );
+  }
+
+
 }
