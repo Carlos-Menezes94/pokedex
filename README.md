@@ -6,9 +6,9 @@ Aplicativo desenvolvido em Flutter que permite aos usuários explorar uma vasta 
 
 ## Screenshots
 
-![Screenshot 1](https://www.imagemhost.com.br/image/rhcxzC)
-![Screenshot 2](https://www.imagemhost.com.br/image/rhcUQL)
-![Screenshot 3](https://www.imagemhost.com.br/image/rhchoB)
+![Screenshot 1](https://i.postimg.cc/mcrfkQTQ/Screenshot-1684532466.png)
+![Screenshot 2](https://i.postimg.cc/VSHyCdN2/Screenshot-1684532474.png)
+![Screenshot 3](https://i.postimg.cc/mzcvNBzk/Screenshot-1684532479.png)
 
 ## Como Executar
 
