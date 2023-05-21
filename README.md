@@ -30,10 +30,9 @@ Aplicativo desenvolvido em Flutter que permite aos usuários explorar uma vasta 
 
 - Dart
 - Flutter
-- Value Notify
+- ValueNotifier
 - Get It
 - Dio
-- RxBuilder
 - Firebase
 - Clean Architecture
 - SOLID
