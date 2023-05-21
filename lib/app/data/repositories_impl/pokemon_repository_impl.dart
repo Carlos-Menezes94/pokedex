@@ -24,24 +24,26 @@ class PokemonRepositoryImpl implements PokemonRepositoryAbstract {
         final results = data['results'] as List<dynamic>;
         final pokemonUrls =
             results.map((result) => result['url'] as String).toList();
-        final pokemonResponses = await Future.wait(
-          pokemonUrls.map((url) async {
-            final pokemonResponse =
-                await dataSource.getImagesPokemons(urlsImages: [url]);
+
+        final List<Future<PokemonResult>> pokemonFutures = [];
+        for (final url in pokemonUrls) {
+          pokemonFutures.add(dataSource.getImagesPokemons(urlsImages: [url])
+              .then((pokemonResponse) {
             if (pokemonResponse.success) {
               final pokemonData = pokemonResponse.data;
               return PokemonResult.fromJson(pokemonData);
             } else {
               throw CantGetPokemonFromPokeapiFailure();
             }
-          }),
-        );
+          }));
+        }
+
+        final pokemonResponses = await Future.wait(pokemonFutures);
 
         final pokemons = pokemonResponses.toList();
         final pokemonModel = PokemonModel(results: pokemons);
 
         return Right(pokemonModel);
-
       } else {
         return Left(CantGetPokemonFromPokeapiFailure());
       }
