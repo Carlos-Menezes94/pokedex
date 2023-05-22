@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 
 import '../../../core/failure.dart';
@@ -14,8 +13,6 @@ class PokemonRepositoryImpl implements PokemonRepositoryAbstract {
   @override
   Future<Either<Failure, PokemonModel>> getPokemonsList(
       {required int page, required int limit}) async {
-    final dio = Dio();
-
     try {
       final response = await dataSource.getPokemons(limit: limit, page: page);
 
@@ -27,8 +24,8 @@ class PokemonRepositoryImpl implements PokemonRepositoryAbstract {
 
         final List<Future<PokemonResult>> pokemonFutures = [];
         for (final url in pokemonUrls) {
-          pokemonFutures.add(dataSource.getImagesPokemons(urlsImages: [url])
-              .then((pokemonResponse) {
+          pokemonFutures.add(dataSource
+              .getImagesPokemons(urlsImages: [url]).then((pokemonResponse) {
             if (pokemonResponse.success) {
               final pokemonData = pokemonResponse.data;
               return PokemonResult.fromJson(pokemonData);

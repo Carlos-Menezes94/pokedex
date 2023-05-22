@@ -4,7 +4,7 @@ import 'app/depedency_injector/di_container.dart';
 import 'app/presentation/pages/home_page.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   DiContainer.start();
 
   runApp(const MaterialApp(
