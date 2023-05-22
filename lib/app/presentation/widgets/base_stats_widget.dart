@@ -5,7 +5,7 @@ import '../controllers/pokemon_controller.dart';
 
 class BaseStatsWidget extends StatelessWidget {
   final List<Map<String, dynamic>> baseStats;
-  final Color colorProgress;
+  final Color colorIndicatorTypePokemon;
 
   final Map<String, String> statTexts = {
     'hp': 'HP',
@@ -19,7 +19,7 @@ class BaseStatsWidget extends StatelessWidget {
   BaseStatsWidget({
     Key? key,
     required this.baseStats,
-    required this.colorProgress,
+    required this.colorIndicatorTypePokemon,
   }) : super(key: key);
 
   @override
@@ -29,10 +29,10 @@ class BaseStatsWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
+          flex: 2,
           child: Column(
             children: baseStats.map((stat) {
               final statName = stat['name'] as String;
-              final statValue = stat['value'] as int;
               controller.store.displayText.value =
                   statTexts[statName] ?? statName;
               return Column(
@@ -42,11 +42,10 @@ class BaseStatsWidget extends StatelessWidget {
                       Text(
                         '${controller.store.displayText.value}:',
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: colorIndicatorTypePokemon),
                       ),
-                      SizedBox(width: 8),
                       SizedBox(width: 8),
                     ],
                   ),
@@ -56,32 +55,35 @@ class BaseStatsWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: baseStats.map((stat) {
-              final statName = stat['name'] as String;
-              final statValue = stat['value'] as int;
-              controller.store.displayText.value =
-                  statTexts[statName] ?? statName;
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
+          flex: 8, // Segunda coluna ocupa 80% do espaço
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: baseStats.map((stat) {
+                final statName = stat['name'] as String;
+                final statValue = stat['value'] as int;
+                controller.store.displayText.value =
+                    statTexts[statName] ?? statName;
+                return Row(
+                  children: [
+                    Text('$statValue'),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(7.0),
                         child: LinearProgressIndicator(
-                          color: colorProgress,
-                          backgroundColor: colorProgress.withOpacity(0.3),
+                          color: colorIndicatorTypePokemon,
+                          backgroundColor:
+                              colorIndicatorTypePokemon.withOpacity(0.3),
                           value: statValue / 300,
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Text('$statValue'),
-                    ],
-                  ),
-                ],
-              );
-            }).toList(),
+                    ),
+                    SizedBox(width: 8),
+                  ],
+                );
+              }).toList(),
+            ),
           ),
         ),
       ],
