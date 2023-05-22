@@ -8,6 +8,7 @@ class AssetLoader {
   static const String imgPokedexInitial =
       "$path/$images/img_pokedex_initial.jpg";
   static const String imgPokeball = "$path/$images/img_pokeball.jpg";
+  static const String imgPokeballBackground = "$path/$images/img_pokeball_backgroud.png";
 
 //ANIMATION
   static const String animationPokeball =

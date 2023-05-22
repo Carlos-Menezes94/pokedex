@@ -62,15 +62,15 @@ class PokemonDetailsPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(height: 16),
               Container(
-                height: 40,
-                width: 40,
-                color: color,
-              ),
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    AssetLoader.imgPokeballBackground,
+                    color: Colors.white,
+                  )),
             ],
           ),
           Padding(
@@ -95,8 +95,7 @@ class PokemonDetailsPage extends StatelessWidget {
                           children: controller
                               .store.listPokemons.value.results[index].types
                               .map((type) {
-                            final color =
-                                ColorForType().getColorForType(type);
+                            final color = ColorForType().getColorForType(type);
                             return Row(
                               children: [
                                 Container(
@@ -247,9 +246,8 @@ class PokemonDetailsPage extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: BaseStatsWidget(
                                 colorIndicatorTypePokemon: color,
-                                baseStats: controller
-                                    .store.listPokemons.value.results[index]
-                                    .baseStats,
+                                baseStats: controller.store.listPokemons.value
+                                    .results[index].baseStats,
                               ),
                             ),
                           ),
