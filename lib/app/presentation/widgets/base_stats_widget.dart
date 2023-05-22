@@ -31,6 +31,8 @@ class BaseStatsWidget extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: baseStats.map((stat) {
               final statName = stat['name'] as String;
               controller.store.displayText.value =
@@ -54,36 +56,38 @@ class BaseStatsWidget extends StatelessWidget {
             }).toList(),
           ),
         ),
+        Container(
+          width: 1,
+          color: Colors.grey,
+          margin: EdgeInsets.symmetric(horizontal: 11),
+        ),
         Expanded(
-          flex: 8, // Segunda coluna ocupa 80% do espaço
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: baseStats.map((stat) {
-                final statName = stat['name'] as String;
-                final statValue = stat['value'] as int;
-                controller.store.displayText.value =
-                    statTexts[statName] ?? statName;
-                return Row(
-                  children: [
-                    Text('$statValue'),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(7.0),
-                        child: LinearProgressIndicator(
-                          color: colorIndicatorTypePokemon,
-                          backgroundColor:
-                              colorIndicatorTypePokemon.withOpacity(0.3),
-                          value: statValue / 300,
-                        ),
+          flex: 9,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: baseStats.map((stat) {
+              final statName = stat['name'] as String;
+              final statValue = stat['value'] as int;
+              controller.store.displayText.value =
+                  statTexts[statName] ?? statName;
+              return Row(
+                children: [
+                  Text('$statValue'),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: LinearProgressIndicator(
+                        color: colorIndicatorTypePokemon,
+                        backgroundColor:
+                            colorIndicatorTypePokemon.withOpacity(0.3),
+                        value: statValue / 300,
                       ),
                     ),
-                    SizedBox(width: 8),
-                  ],
-                );
-              }).toList(),
-            ),
+                  ),
+                ],
+              );
+            }).toList(),
           ),
         ),
       ],
