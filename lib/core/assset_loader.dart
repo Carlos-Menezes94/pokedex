@@ -4,9 +4,16 @@ class AssetLoader {
   static const String animations = "animations";
   static const String images = "images";
 
+//IMG
   static const String imgPokedexInitial =
       "$path/$images/img_pokedex_initial.jpg";
+  static const String imgPokeball = "$path/$images/img_pokeball.jpg";
+
+//ANIMATION
   static const String animationPokeball =
       "$path/$animations/animation_pokeball.gif";
-  static const String imgPokeball = "$path/$images/img_pokeball.jpg";
+
+  //ICON
+  static const String iconRule = "$path/$icons/icon_rule.png";
+  static const String iconWeight = "$path/$icons/icon_weight.png";
 }

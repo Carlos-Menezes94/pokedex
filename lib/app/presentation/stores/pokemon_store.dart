@@ -8,6 +8,7 @@ import '../../data/models/pokemon_model.dart';
 class PokemonStore extends Store {
   RxNotifier<AppState> state = RxNotifier<AppState>(AppState());
   RxNotifier<String> idText = RxNotifier<String>("");
+  RxNotifier<String> displayText = RxNotifier<String>("");
 
   ValueNotifier<PokemonModel> listPokemons =
       ValueNotifier<PokemonModel>(PokemonModel(results: []));

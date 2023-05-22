@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import '../../../core/app_state.dart';
 import '../../../core/assset_loader.dart';
 import '../../../core/color_for_type.dart';
+import '../../../core/fractional_number_formatter_util.dart';
 import '../controllers/pokemon_controller.dart';
 import 'details_pokemon_page.dart';
 
@@ -16,6 +17,9 @@ class PokemonListPage extends StatefulWidget {
 class _PokemonListPageState extends State<PokemonListPage> {
   PokemonController pokemonController = GetIt.I.get<PokemonController>();
   ScrollController _scrollController = ScrollController();
+  // Variável para controlar se uma solicitação de carregamento está em andamento
+  bool _isLoadingMore =
+      false; 
 
   @override
   void initState() {
@@ -23,10 +27,20 @@ class _PokemonListPageState extends State<PokemonListPage> {
     pokemonController.store.isLoadingPokeball = true;
     pokemonController.getPokemonsList();
 
+    //Metodo scroll infinito, só irá fazer uma nova requisao quando a anterior terminar
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        pokemonController.loadMorePokemons();
+        if (!_isLoadingMore) {
+          setState(() {
+            _isLoadingMore = true;
+          });
+          pokemonController.loadMorePokemons().then((_) {
+            setState(() {
+              _isLoadingMore = false;
+            });
+          });
+        }
       }
     });
   }
@@ -110,9 +124,7 @@ class _PokemonListPageState extends State<PokemonListPage> {
                       ),
                       SizedBox(width: 16),
                       GestureDetector(
-                        onTap: () {
-                          // Ação ao pressionar o botão circular
-                        },
+                        onTap: () {},
                         child: Container(
                           width: 40,
                           height: 40,
@@ -164,6 +176,14 @@ class _PokemonListPageState extends State<PokemonListPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PokemonDetailsPage(
+                                      height:
+                                          FractionalNumberFormatterUtil.format(
+                                              controller.store.listPokemons
+                                                  .value.results[index].height),
+                                      weightOfPokemon:
+                                          FractionalNumberFormatterUtil.format(
+                                              controller.store.listPokemons
+                                                  .value.results[index].weight),
                                       index: index,
                                       color: ColorForType().getColorForType(
                                           controller.store.listPokemons.value
