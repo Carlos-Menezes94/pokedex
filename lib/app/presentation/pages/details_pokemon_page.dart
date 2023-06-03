@@ -93,7 +93,7 @@ class PokemonDetailsPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: controller
-                              .store.listPokemons.value.results[index].types
+                              .store.listPokemonsView.value.results[index].types
                               .map((type) {
                             final color = ColorForType().getColorForType(type);
                             return Row(
@@ -246,7 +246,7 @@ class PokemonDetailsPage extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: BaseStatsWidget(
                                 colorIndicatorTypePokemon: color,
-                                baseStats: controller.store.listPokemons.value
+                                baseStats: controller.store.listPokemonsView.value
                                     .results[index].baseStats,
                               ),
                             ),

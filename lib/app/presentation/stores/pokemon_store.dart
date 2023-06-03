@@ -9,8 +9,14 @@ class PokemonStore extends Store {
   RxNotifier<AppState> state = RxNotifier<AppState>(AppState());
   RxNotifier<String> idText = RxNotifier<String>("");
   RxNotifier<String> displayText = RxNotifier<String>("");
+  RxNotifier<String> searchText = RxNotifier<String>("");
 
+  RxNotifier<PokemonModel> listPokemonsView =
+      RxNotifier<PokemonModel>(PokemonModel(results: []));
   ValueNotifier<PokemonModel> listPokemons =
+      ValueNotifier<PokemonModel>(PokemonModel(results: []));
+
+       ValueNotifier<PokemonModel> listPokemons1 =
       ValueNotifier<PokemonModel>(PokemonModel(results: []));
   int? id;
   String? imageUrl;

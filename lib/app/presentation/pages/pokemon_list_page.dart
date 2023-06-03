@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smilink_andromeda/utils/andromeda_layout_utils.dart';
 import '../../../core/app_state.dart';
 import '../../../core/assset_loader.dart';
 import '../../../core/color_for_type.dart';
@@ -15,7 +16,7 @@ class PokemonListPage extends StatefulWidget {
   _PokemonListPageState createState() => _PokemonListPageState();
 }
 
-class _PokemonListPageState extends State<PokemonListPage> {
+class _PokemonListPageState extends State<PokemonListPage> with AndromedaLayoutMixin {
   PokemonController pokemonController = GetIt.I.get<PokemonController>();
   ScrollController _scrollController = ScrollController();
   // Variável para controlar se uma solicitação de carregamento está em andamento
@@ -56,7 +57,7 @@ class _PokemonListPageState extends State<PokemonListPage> {
     PokemonController controller = GetIt.I.get<PokemonController>();
 
     return Scaffold(
-      backgroundColor: Color(0xFFDC0A2D),
+      backgroundColor: colors.dangerPure,
       body: ValueListenableBuilder<AppState>(
         valueListenable: controller.store.state,
         builder: (context, value, child) {
@@ -111,6 +112,10 @@ class _PokemonListPageState extends State<PokemonListPage> {
                             color: Colors.white,
                           ),
                           child: TextField(
+                            onChanged: (value) {
+                              controller.store.searchText.value = value;
+                              controller.searchPokemon();
+                            },
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Search',
@@ -124,7 +129,9 @@ class _PokemonListPageState extends State<PokemonListPage> {
                       ),
                       SizedBox(width: 16),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          controller.getPokemonsList();
+                        },
                         child: Container(
                           width: 40,
                           height: 40,
@@ -159,12 +166,12 @@ class _PokemonListPageState extends State<PokemonListPage> {
                         crossAxisSpacing: 16,
                       ),
                       itemCount:
-                          controller.store.listPokemons.value.results.length +
+                          controller.store.listPokemonsView.value.results.length +
                               1,
                       itemBuilder: (context, index) {
                         if (index <
                             controller
-                                .store.listPokemons.value.results.length) {
+                                .store.listPokemonsView.value.results.length) {
                           controller.store.idText.value =
                               (index + 1).toString().padLeft(3, '0');
 
@@ -176,19 +183,19 @@ class _PokemonListPageState extends State<PokemonListPage> {
                                   builder: (context) => PokemonDetailsPage(
                                     height:
                                         FractionalNumberFormatterUtil.format(
-                                            controller.store.listPokemons.value
+                                            controller.store.listPokemonsView.value
                                                 .results[index].height),
                                     weightOfPokemon:
                                         FractionalNumberFormatterUtil.format(
-                                            controller.store.listPokemons.value
+                                            controller.store.listPokemonsView.value
                                                 .results[index].weight),
                                     index: index,
                                     color: ColorForType().getColorForType(
-                                        controller.store.listPokemons.value
+                                        controller.store.listPokemonsView.value
                                             .results[index].types.first),
-                                    name: controller.store.listPokemons.value
+                                    name: controller.store.listPokemonsView.value
                                         .results[index].name,
-                                    imageUrl: controller.store.listPokemons
+                                    imageUrl: controller.store.listPokemonsView
                                         .value.results[index].imageUrl,
                                   ),
                                 ),
@@ -202,7 +209,7 @@ class _PokemonListPageState extends State<PokemonListPage> {
                                     children: [
                                       Expanded(
                                         child: Image.network(
-                                          controller.store.listPokemons.value
+                                          controller.store.listPokemonsView.value
                                               .results[index].imageUrl,
                                           width: 100,
                                           height: 100,
@@ -212,11 +219,11 @@ class _PokemonListPageState extends State<PokemonListPage> {
                                       Container(
                                         padding: EdgeInsets.all(4),
                                         child: Text(
-                                          controller.store.listPokemons.value
+                                          controller.store.listPokemonsView.value
                                                   .results[index].name
                                                   .substring(0, 1)
                                                   .toUpperCase() +
-                                              controller.store.listPokemons
+                                              controller.store.listPokemonsView
                                                   .value.results[index].name
                                                   .substring(1),
                                           style: GoogleFonts.poppins(
@@ -235,7 +242,7 @@ class _PokemonListPageState extends State<PokemonListPage> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(10),
-                                          bottomRight: Radius.circular(10),
+                                          bottomRight: const Radius.circular(10),
                                         ),
                                       ),
                                       child: Text(
